@@ -5,7 +5,7 @@ from datetime import datetime
 import math
 import openpyxl
 
-def changetime(hour, minute, second):
+def changetime(hour, minute, second): #To convert all the data to appropriate time. Eg: If user inputs 0 hours, 90 minutes, 0 seconds, this is converted to 1 hour, 30 min, 0 sec. 
 
     if(second>=60):
         minute += int(second/60)
@@ -26,7 +26,7 @@ def changetime(hour, minute, second):
         
     return '{}:{}:{}'.format(hour, minute, second)
 
-def validDate(day, month):
+def validDate(day, month): #Check if user inputted a valid date
     trueDay = False
     trueMonth = False
     monthNum = 0
@@ -67,7 +67,7 @@ def validDate(day, month):
             
     return trueDay and trueMonth
     
-def date(day, month):
+def date(day, month): #Return the date of run
     month_name = 'janfebmaraprmayjunjulaugsepoctnovdec'
 
     if(month.isnumeric()):
@@ -90,12 +90,12 @@ confirmation = 0
 
 while(confirmation == 0):
     
-    head_1 = sheet.cell(row = 1, column = 1)
+    head_1 = sheet.cell(row = 1, column = 1) #Header: Date
     head_1.value = 'Date'
     head_1.font = Font(name = 'Times New Roman', size = 12, bold = True)
     head_1.alignment = Alignment(horizontal="center", vertical="center")
 
-    head_2 = sheet.cell(row = 1, column = 2)
+    head_2 = sheet.cell(row = 1, column = 2) #Header: Distance
     head_2.value = 'Distance'
     head_2.font = Font(name = 'Times New Roman', size = 12, bold = True)
     head_2.alignment = Alignment(horizontal="center", vertical="center")
@@ -158,14 +158,14 @@ while(confirmation == 0):
 
     dist_1 = sheet.cell(row = i, column = 2)
     dist_1.value = float(input('Distance (km): '))
-    meters = dist_1.value*1000 #convert to meters
+    meters = dist_1.value*1000 #Convert to meters
     dist_1.font = Font(name = 'Times New Roman', size = 12)
     dist_1.alignment = Alignment(horizontal="center", vertical="center")
     dist_1.number_format = '00.00'
 
     time_1 = sheet.cell(row = i, column = 3)
 
-    cum_time = 0 #cummalitive time for each run
+    cum_time = 0 #Cumulative time for each run
 
     hour = int(input('Hours: '))
     cum_time+=3600*hour
@@ -177,15 +177,15 @@ while(confirmation == 0):
     cum_time+=seconds
     
     time_1.number_format = '%H:%M:%S'
-    time_1.value = changetime(hour, minutes, seconds) #if 90 minute input, return is 01:30:00
+    time_1.value = changetime(hour, minutes, seconds) #If 90 minute input, return is 01:30:00
     time_1.font = Font(name = 'Times New Roman', size = 12)
     time_1.alignment = Alignment(horizontal="center", vertical="center")
 
     total_time = sheet.cell(row = i, column = 5)
     prev_time = sheet.cell(row = i-1, column = 5)
-    gross_time = 0 #total time ever
+    gross_time = 0 #Total time of all runs combined
 
-    if(i==2):
+    if(i==2): #First run input
         total_time.value = time_1.value
         total_time.number_format = '%H:%M:%S'
         gross_time = int(3600*hour)+int(60*minutes)+int(seconds)
@@ -219,7 +219,7 @@ while(confirmation == 0):
     total_time.font = Font(name = 'Times New Roman', size = 12)
     total_time.alignment = Alignment(horizontal="center", vertical="center")
 
-    single_pace = float((cum_time*1000)/(meters*60))
+    single_pace = float((cum_time*1000)/(meters*60)) #New run pace
     min_pace = int(math.floor(single_pace))
     sec_pace = int(60*float(float(single_pace) - float(min_pace)))
     if(min_pace<10):
@@ -232,7 +232,7 @@ while(confirmation == 0):
     pace_1.font = Font(name = 'Times New Roman', size = 12)
     pace_1.alignment = Alignment(horizontal="center", vertical="center")
 
-    sheet['H3'] = '= SUM(B:B)'
+    sheet['H3'] = '= SUM(B:B)' #Total Distance
     sheet['H3'].font = Font(name = 'Times New Roman', size = 12)
     sheet['H3'].alignment = Alignment(horizontal="center", vertical="center")
     sheet['H3'].number_format = '00.00'
@@ -261,7 +261,7 @@ while(confirmation == 0):
     if(ave_sec_pace<10):
         ave_sec_pace = '0{}'.format(ave_sec_pace)
 
-    average_pace = sheet.cell(row = 4, column = 8)
+    average_pace = sheet.cell(row = 4, column = 8) #Average pace of all runs combined. Total time/Total distance
     average_pace.value = '{}:{}'.format(ave_min_pace, ave_sec_pace)
     average_pace.font = Font(name = 'Times New Roman', size = 12)
     average_pace.alignment = Alignment(horizontal="center", vertical="center")
