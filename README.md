@@ -1,4 +1,4 @@
-I'll be using this README file to track each project, and a short summary of it. 
+I'll be using this README file to track each project, and a short summary of it. These projects have come about during the partial lockdown. With nothing to do, some topics have sparked my interest and I've been creating projects about them. 
 
 1. Running
 
