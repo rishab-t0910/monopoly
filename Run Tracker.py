@@ -115,7 +115,7 @@ def date(day, month):
     return '{} {}'.format(day.title(), fin_month.title())
 
 
-#wb = Workbook()
+#wb = Workbook() Uncomment these two lines and comment the third line to create a new document
 #wb.save(filename = 'Run Tracker.xlsx')
 wb = load_workbook("Run Tracker.xlsx")
 
