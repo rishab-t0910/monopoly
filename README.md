@@ -7,6 +7,8 @@ The project takes in the date, duration, distance of the run and creates an exce
 
 Edit on 19/05/21: Sorted out some bugs with the program. Solved (a lot of) bugs! Added the option for the user to query (find) values, as well as some usability stuff (allow the user to re-confirm their run, exit at any point). In the coming days, I'll look to improve the quality of the code, as right now it's a bit clunky and a tad unreadable. 
 
+Edit on 21/05/21: Found out more ways that the program did not function. Added a check for invalid input (eg: words for distance). Formatted the code to look cleaner. 
+
 2. Master Schedule
 
 This project tries to schedule a 8, 16, and 32 person squash draw. While 8 is straightforward in how to schedule, 16 and 32 are not. I tried to find the best way to schedule 16 and 32 without hardcoding it, but it is quite tough. Still trying to think of a solution. Maybe recrusive, and call the smaller method?
