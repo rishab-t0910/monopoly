@@ -115,7 +115,7 @@ def date(day, month):
     return '{} {}'.format(day.title(), fin_month.title())
 
 
-#wb = Workbook() Uncomment these two lines and comment the third line to create a new document
+#wb = Workbook()
 #wb.save(filename = 'Run Tracker.xlsx')
 wb = load_workbook("Run Tracker.xlsx")
 
@@ -653,7 +653,7 @@ else:
                 count = 1
 
                 while (not hour.isnumeric() or not minute.isnumeric() or not second.isnumeric() and count < 4):
-                    print('Enter a valid start time'
+                    print('Enter a valid start time')
                     count += 1
                     hour = input('Enter a start hour: ')
                     minute = input('Enter a start minute: ')
@@ -910,7 +910,7 @@ else:
                     hour = int(hour)
                     cum_time += 3600*hour
                     minutes = int(minutes)
-                    cum_time += 60*seconds
+                    cum_time += 60*minutes
                     seconds = int(seconds)
                     cum_time += seconds
                     
@@ -1024,10 +1024,10 @@ else:
                     count += 1
                     confirmation = input('0: Re-input\n1: Confirm\n2: Exit\n\n')
 
-                confirmation = int(confirmation)
-                
                 if (not confirmation.isnumeric() or int(confirmation) > 2 or int(confirmation) < 0):
                     confirmation = 2
+
+                confirmation = int(confirmation)
 
                 if (confirmation == 0 or confirmation == 2):
 
