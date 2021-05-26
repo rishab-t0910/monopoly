@@ -1,6 +1,6 @@
 I'll be using this README file to track each project, and a short summary of it. These projects have come about during the partial lockdown. With nothing to do, some topics have sparked my interest and I've been creating projects about them. 
 
-1. Running
+1. Run Tracker
 
 This project came about because I wanted to learn how to combine python and excel (using openpyxl). As I run a frequent amount, I thought this would be the best way to combine the two as I track my stats on an excel sheet. 
 The project takes in the date, duration, distance of the run and creates an excel sheet with this informatio, as well as overall analysis of pace, distance, time, and individual run pace. 
@@ -8,6 +8,8 @@ The project takes in the date, duration, distance of the run and creates an exce
 Edit on 19/05/21: Sorted out some bugs with the program. Solved (a lot of) bugs! Added the option for the user to query (find) values, as well as some usability stuff (allow the user to re-confirm their run, exit at any point). In the coming days, I'll look to improve the quality of the code, as right now it's a bit clunky and a tad unreadable. 
 
 Edit on 21/05/21: Found out more ways that the program did not function. Added a check for invalid input (eg: words for distance). Formatted the code to look cleaner. 
+
+Edit on 26/05/21: It seems as though everytime I use the code, I find more bugs. Added two new methods, floatCheck and intCheck using ValueError exception handling to weed out any false inputs, such as alphabets where there should be numbers. Trying to make the code cleaner on behest of a mate, but there are so many cases for each input it is tough. Sad that there isn't a switch statement in python, would've been easier to sort it out.
 
 2. Master Schedule
 
