@@ -25,18 +25,12 @@ def intCheck(value):
     
 def changetime(hour, minute, second):
 
-    hour = int(hour)
-    minute = int(minute)
     second = int(second)
-
-    if (second >= 60):
-        minute += int(second/60)
-        second = second%60
-
-    if (minute >= 60):
-        hour += int(minute/60)
-        minute = minute%60
-
+    minute += int(second/60)
+    second = second % 60
+    hour += int(minute/60)
+    minute = minute % 60
+    
     if (hour < 10):
         hour = '0{}'.format(hour)
 
@@ -60,7 +54,7 @@ def validDate(day, month):
 
     if (intCheck(month)):
 
-        if (int(month) > 12 or int(month) < 1):
+        if (not (1 <= int(month) <= 12)):
             trueMonth = False
             
         else:
@@ -71,7 +65,7 @@ def validDate(day, month):
     else:
         month = str(month[0:3])
         
-        if (monthName.find(month) >= 0 and monthName.find(month)%3 == 0):
+        if (monthName.find(month) >= 0 and monthName.find(month) % 3 == 0):
             month_num = int(monthName.find(month)/3) + 1
             fin_month = month
             trueMonth = True
@@ -79,37 +73,22 @@ def validDate(day, month):
         else:
             trueMonth = False
 
-    if (intCheck(month)):
+    if (intCheck(day)):
 
-        if (int(day) > 31 or int(day) < 1):
+        if (not (1 <= int(day) <= 31)):
             trueDay = False
             
         else: #month by month case
             day = int(day)
             
             if (month_num == 2):
-
-                if (1 <= day <= 29):
-                    trueDay = True
-
-                else:
-                    trueDay = False
+                trueDay = (1 <= day <= 29)
 
             elif (month_num == 1 or month_num == 3 or month_num == 5 or month_num == 7 or month_num == 8 or month_num == 10 or month_num == 12):
-
-                if (1 <= day <= 31):
-                    trueDay = True
-
-                else:
-                    trueDay = False
-
+                trueDay = (1 <= day <= 31)
+                
             else:
-
-                if (1 <= day <= 30):
-                    trueDay = True
-
-                else:
-                    trueDay = False
+                trueDay = (1 <= day <= 30)
 
     else:
         trueDay = False
@@ -186,16 +165,14 @@ else:
                         break
                     
                     else:
-                        if (not intCheck(cell.value)):
+                        if (not (floatCheck(cell.value) and intCheck(cell.value)):
                             i += 1
 
                         else:
                             if (float(cell.value) > max_val):
                                 max_val = cell.value
-                                i += 1
-
-                            else:
-                                i += 1
+                                
+                            i += 1
 
                 row_count = 1
                 iter_1 = 0
@@ -237,12 +214,9 @@ else:
                 i = 0
 
                 for cell in sheet['C']:
-                    if(max_val is None):
+                    if(max_val is None or cell.value is None):
                         break
-
-                    if (cell.value is None):
-                        break
-
+                    
                     else:
                         if (i == 0):
                             i += 1
@@ -353,7 +327,7 @@ else:
                     
                     if (cell.value is not None):
                         
-                        if (intCheck(cell.value)):
+                        if (floatCheck(cell.value) or intCheck(cell.value)):
                             total_dist += float(cell.value)
 
                 print('Total Distance:', str(total_dist)+'km.\n')
@@ -365,7 +339,7 @@ else:
                     if (cell.value is None):
                         break
 
-                    i = i+1
+                    i += 1
 
                 total_time = sheet.cell(row = i, column = 5).value
 
@@ -436,12 +410,9 @@ else:
                 i = 0
                 
                 for cell in sheet['D']:
-                    if (max_val is None):
+                    if (max_val is None or cell.value is None):
                         break
-
-                    if (cell.value is None):
-                        break
-
+                    
                     else:
                         if (i == 0):
                             i += 1
@@ -628,21 +599,14 @@ else:
                                 if (start_month < curr_month < end_month):
                                     to_add = 1
 
-                                elif (start_month == curr_month and end_month == curr_month):
+                                elif (start_month == curr_month == end_month):
                                     to_add = (start_day <= curr_date <= end_day)
 
                                 elif (start_month == curr_month):
-                                    if (curr_date >= start_day):
-                                        to_add = 1
-
-                                    else:
-                                        to_add = 0
+                                    to_add = (curr_date >= start_day)
+                                    
                                 elif (end_month == curr_month):
-                                    if (curr_date <= end_day):
-                                        to_add = 1
-
-                                    else:
-                                        to_add = 0
+                                    to_add = (curr_date <= end_day):
 
                                 if (to_add == 1):
                                     date_dict[iter_1] = sheet.cell(row = rows, column = 1).value
@@ -733,15 +697,12 @@ else:
                                     to_add = 0
 
                                 elif (cell_hour == start_hour and cell_hour == end_hour):
-                                    if (cell_min >= start_min and cell_min <= end_min):
-                                        to_add = 1
+                                    if (cell_min > start_min and cell_min < end_min):
+                                        to_add = 1 
 
                                     elif (cell_min == start_min and cell_min == end_min):
-                                        if (cell_sec >= start_sec and cell_sec <= end_sec):
-                                            to_add = 1
-
-                                        else:
-                                            to_add = 0
+                                        to_add = (start_sec <= cell_sec <= end_sec)
+                                        
                                     else:
                                         to_add = 0
 
@@ -753,13 +714,9 @@ else:
                                         to_add = 1
 
                                     else:
-                                        if (cell_sec >= start_sec):
-                                            to_add = 1
+                                        to_add = (cell_sec >= start_sec)
 
-                                        else:
-                                            to_add = 0
-
-                                elif (cell_hour == end_hour):
+                                elif (cell_hour == end_hour): 
                                     if (cell_min > end_min):
                                         to_add = 0
 
@@ -767,10 +724,7 @@ else:
                                         to_add = 1
 
                                     else:
-                                        if (cell_sec <= start_sec):
-                                            to_add = 1
-                                        else:
-                                            to_add = 0
+                                        to_add = (cell_sec <= end_sec)
 
                                 elif (start_hour < cell_hour < end_hour):
                                     to_add = 1
@@ -852,7 +806,7 @@ else:
                     break
 
                 else:
-                    i = i+1
+                    i += 1
 
             date_1 = sheet.cell(row = i, column = 1)
             date_1.font = Font(name = 'Times New Roman', size = 12)
@@ -940,7 +894,7 @@ else:
                 prev_time = sheet.cell(row = i-1, column = 5)
                 gross_time = 0 #total time ever
 
-                if (i==2):
+                if (i == 2):
                     total_time.value = time_1.value
                     total_time.number_format = '%H:%M:%S'
                     gross_time = int(3600*hour)+int(60*minutes)+int(seconds)
@@ -954,13 +908,10 @@ else:
                     gross_time = int(3600*hh) + int(60*mm) + int(ss)
                     total_time.number_format = '%H:%M:%S'
 
-                    if (ss >= 60):
-                        mm += int(ss/60)
-                        ss = ss%60
-
-                    if (mm >= 60):
-                        hh += int(mm/60)
-                        mm = mm%60
+                    mm += int(ss/60)
+                    ss = ss % 60
+                    hh += int(hh/60)
+                    mm = mm % 60
 
                     if (hh < 10):
                         hh = '0{}'.format(hh)
@@ -1003,7 +954,7 @@ else:
                           
                 for cell in sheet['B']:
                     if (i == 1): #skip the heading
-                        i = i+1
+                        i += 1
 
                     elif cell.value is None: #end
                         break
