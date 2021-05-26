@@ -5,6 +5,24 @@ from datetime import datetime
 import math
 import openpyxl
 
+def floatCheck(value):
+
+    try:
+        value = float(value)
+        return 1
+    
+    except ValueError:
+        return 0
+
+def intCheck(value):
+
+    try:
+        value = int(value)
+        return 1
+
+    except ValueError:
+        return 0
+    
 def changetime(hour, minute, second):
 
     hour = int(hour)
@@ -40,7 +58,7 @@ def validDate(day, month):
 
     month_num = 0
 
-    if (str(month).isnumeric()):
+    if (intCheck(month)):
 
         if (int(month) > 12 or int(month) < 1):
             trueMonth = False
@@ -61,7 +79,7 @@ def validDate(day, month):
         else:
             trueMonth = False
 
-    if (str(day).isnumeric()):
+    if (intCheck(month)):
 
         if (int(day) > 31 or int(day) < 1):
             trueDay = False
@@ -114,7 +132,6 @@ def date(day, month):
 
     return '{} {}'.format(day.title(), fin_month.title())
 
-
 #wb = Workbook()
 #wb.save(filename = 'Run Tracker.xlsx')
 wb = load_workbook("Run Tracker.xlsx")
@@ -127,13 +144,13 @@ choice = str(input('0: Input\n1: Find\n2: Show all runs\n3: Exit\n'))
 
 count = 1
 
-while ((not choice.isnumeric() or int(choice) > 3 or int(choice) < 0) and count < 4): #check valid user input
+while (not(intCheck(choice) and 0 <= int(choice) <= 3) and count < 4): #check valid user input
     
     print('You have entered an invalid choice.')
     count += 1
     choice = input('0: Input\n1: Find\n2: Show all runs\n3: Exit\n')
 
-if (not choice.isnumeric() or int(choice) > 3 or int(choice) < 0):
+if (not(intCheck(choice) and 0 <= int(choice) <= 3)):
     print('Goodbye.')
 
 else:
@@ -147,12 +164,12 @@ else:
 
         count = 1
 
-        while ((not data_point.isnumeric() or int(data_point) > 10 or int(data_point) < 0) and count < 4): #check valid user input
+        while (not(intCheck(choice) and 0 <= int(data_point) <= 10) and count < 4): #check valid user input
             print('You have entered an invalid choice.')
             count += 1
             data_point = str(input('0: Highest Run Distance\n1: Highest Run Time\n2: Run Stats on a specific date\n3: Total Distance\n4: Total Time\n5: Total Average Pace\n6: Lowest Pace\n7: Runs within a range of distance\n8: Runs within a range of dates\n9: Runs within a range of times\n10: Exit\n'))
 
-        if ((not data_point.isnumeric() or int(data_point) > 10 or int(data_point) < 0)):
+        if (not(intCheck(choice) and 0 <= int(data_point) <= 10)):
             print('Goodbye.')
 
         else:
@@ -169,7 +186,7 @@ else:
                         break
                     
                     else:
-                        if (not str(cell.value).isnumeric()):
+                        if (not intCheck(cell.value)):
                             i += 1
 
                         else:
@@ -336,7 +353,7 @@ else:
                     
                     if (cell.value is not None):
                         
-                        if (str(cell.value).isnumeric()):
+                        if (intCheck(cell.value)):
                             total_dist += float(cell.value)
 
                 print('Total Distance:', str(total_dist)+'km.\n')
@@ -360,7 +377,7 @@ else:
                 valid_min = 0
                 valid_sec = 0
 
-                if (hour.isnumeric()):
+                if (intCheck(hour)):
                     valid_hour = 1
                     if (int(hour) == 1):
                         hour = str(hour)+' hour'
@@ -368,7 +385,7 @@ else:
                     else:
                         hour = str(hour)+' hours'
 
-                if (minute.isnumeric()):
+                if (intCheck(minute)):
                     valid_min = 1
                     if (int(minute) == 1):
                         minute = str(minute)+' minute'
@@ -376,7 +393,7 @@ else:
                     else:
                         minute = str(minute)+' minutes'
 
-                if (sec.isnumeric()):
+                if (intCheck(sec)):
                     valid_sec = 1
                     if (int(sec) == 1):
                         sec = str(sec)+' second'
@@ -479,13 +496,13 @@ else:
                 
                 count = 1
                 
-                while (not lower_bound.isnumeric() and count < 4):
+                while (not intCheck(lower_bound) and count < 4):
                     
                     print('Invalid Lower Bound.')
                     count += 1
                     lower_bound = input('Enter a lower distance bound: ')
 
-                if (not lower_bound.isnumeric()):
+                if (not intCheck(lower_bound)):
                     print('Goodbye.')
                     
                 else:
@@ -493,12 +510,12 @@ else:
                     
                     count = 1
                     
-                    while(not upper_bound.isnumeric() and count < 4):
+                    while(not intCheck(upper_bound) and count < 4):
                         print('Invalid upper Bound.')
                         count += 1
                         upper_bound = input('Enter a upper distance bound: ')
                         
-                    if (not upper_bound.isnumeric()):
+                    if (not intCheck(upper_bound)):
                         print('Goodbye.')
                         
                     else:
@@ -518,7 +535,7 @@ else:
                                 rows += 1
 
                             else:
-                                if (float(cell.value) >= float(lower_bound) and float(cell.value) <= float(upper_bound)):
+                                if (float(lower_bound) <= float(cell.value) <= float(upper_bound)):
                                     date_dict[iter_1] = sheet.cell(row = rows, column = 1).value
                                     dist_dict[iter_1] = sheet.cell(row = rows, column = 2).value
                                     time_dict[iter_1] = sheet.cell(row = rows, column = 3).value
@@ -652,7 +669,7 @@ else:
                 second = input('Enter a start second: ')
                 count = 1
 
-                while (not hour.isnumeric() or not minute.isnumeric() or not second.isnumeric() and count < 4):
+                while (not (intCheck(hour) and intCheck(minute) and intCheck(second)) and count < 4):
                     print('Enter a valid start time')
                     count += 1
                     hour = input('Enter a start hour: ')
@@ -660,7 +677,7 @@ else:
                     second = input('Enter a start second: ')
 
 
-                if (not hour.isnumeric() or not minute.isnumeric() or not second.isnumeric()):
+                if (not (intCheck(hour) and intCheck(minute) and intCheck(second))):
                     print('Goodbye.')
                     
                 else:
@@ -675,14 +692,14 @@ else:
                     second = input('Enter an end second: ')
                     count = 1
 
-                    while (not hour.isnumeric() or not minute.isnumeric() or not second.isnumeric() and count < 4):
+                    while (not (intCheck(hour) and intCheck(minute) and intCheck(second)) and count < 4):
                         print('Enter a valid end time')
                         count += 1
                         hour = input('Enter an end hour: ')
                         minute = input('Enter an end minute: ')
                         second = input('Enter an end second: ')
 
-                    if (not hour.isnumeric() or not minute.isnumeric() or not second.isnumeric()):
+                    if (not (intCheck(hour) and intCheck(minute) and intCheck(second))):
                         print('Goodbye.')
 
                     else:
@@ -864,12 +881,12 @@ else:
 
                 count = 1
 
-                while ((not distance.isnumeric() or float(distance) <= 0) and count < 4):
+                while (not (floatCheck(distance) and float(distance) > 0) and count < 4):
                     print('Invalid distance.')
                     count += 1
                     distance = input('Distance (kilometer): ')
 
-                if (not distance.isnumeric() or float(distance) <= 0):
+                if (not (floatCheck(distance) and float(distance) > 0)):
                     sheet.cell(row = i, column = 1).value = None
                     print('Goodbye.')
                     break
@@ -893,14 +910,14 @@ else:
                 
                 count = 1
                 
-                while (((not hour.isnumeric() or not minutes.isnumeric() or not seconds.isnumeric()) or (hour == 0 and minutes == 0 and seconds == 0)) and count < 4):
+                while (not (intCheck(hour) and intCheck(minute) and intCheck(second)) or (hour == 0 and minutes == 0 and seconds == 0) and count < 4):
                     print('You have entered an invalid time.')
                     count += 1
                     hour = input('Hours: ')
                     minutes = input('Minutes: ')
                     seconds = input('Seconds: ')
                     
-                if ((not hour.isnumeric() or not minutes.isnumeric() or not seconds.isnumeric()) or (hour == 0 and minutes == 0 and seconds == 0)):
+                if (not (intCheck(hour) and intCheck(minute) and intCheck(second)) or (hour == 0 and minutes == 0 and seconds == 0)):
                     sheet.cell(row = i, column = 1).value = None
                     sheet.cell(row = i, column = 2).value = None
                     print('Goodbye.')
@@ -1019,18 +1036,17 @@ else:
 
                 count = 1
 
-                while ((not confirmation.isnumeric() or int(confirmation) > 2 or int(confirmation) < 0) and count < 4): #check valid user input
+                while (not (intCheck(confirmation) and 0 <= int(confirmation) <= 2) and count < 4): #check valid user input
                     print('You have entered an invalid choice.')
                     count += 1
                     confirmation = input('0: Re-input\n1: Confirm\n2: Exit\n\n')
 
-                if (not confirmation.isnumeric() or int(confirmation) > 2 or int(confirmation) < 0):
+                if (not (intCheck(confirmation) and 0 <= int(confirmation) <= 2)):
                     confirmation = 2
 
                 confirmation = int(confirmation)
 
-                if (confirmation == 0 or confirmation == 2):
-
+                if (confirmation % 2 == 0):
                     i = 1
 
                     for cell in sheet['A']:
@@ -1051,7 +1067,6 @@ else:
                        cell_obj.value = None
 
                     if (confirmation == 2):
-
                         print('Thank you.')
                         break
 
