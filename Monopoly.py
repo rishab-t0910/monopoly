@@ -9,7 +9,8 @@
 
 '''Results of this that can be interpreted: which property is most likely to be landed on'''
 
-from openpyxl.styles import Font, Alignment
+from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
+from openpyxl.styles.numbers import FORMAT_PERCENTAGE_00
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from datetime import datetime
@@ -108,6 +109,8 @@ def chance(chance_cards): #increment the deck
 wb = load_workbook('Monopoly.xlsx')
 sheet = wb.active
 
+''' Formatting starts here '''
+
 head_1 = sheet.cell(row = 1, column = 1)
 head_1.value = 'Location'
 head_1.font = Font(name = 'Times New Roman', size = 12, bold = True)
@@ -142,6 +145,37 @@ for i in range(0, len(boardName)):
     sheet.cell(row = i+2, column = 3).alignment = Alignment(horizontal="center", vertical="center")
     sheet.cell(row = i+2, column = 3).value = None
     
+for i in range(2, 38):
+    
+    if (i == 3 or i == 5):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='DEB887', end_color='DEB887',fill_type='solid')
+
+    elif (i == 8 or i == 10 or i == 11):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='87CEEB', end_color='87CEEB',fill_type='solid')
+
+    elif (i == 13 or i == 15 or i == 16):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='FF1493', end_color='FF1493',fill_type='solid')
+
+    elif (i == 18 or i == 19 or i == 20):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='FF8C00', end_color='FF8C00',fill_type='solid')
+
+    elif (i == 22 or i == 23 or i == 24):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='FF0000', end_color='FF0000',fill_type='solid')
+
+    elif (i == 26 or i == 27 or i == 29):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='FFFF00', end_color='FFFF00',fill_type='solid')
+
+    elif (i == 31 or i == 32 or i == 33):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='2E8B57', end_color='2E8B57',fill_type='solid')
+
+    elif (i == 37 or i == 35):
+        sheet.cell(row = i, column = 1).fill = PatternFill(start_color='4169E1', end_color='4169E1',fill_type='solid')
+
+    else:
+        sheet.cell(row = i, column = 1).fill = PatternFill(fill_type = None)
+
+''' Formatting ends here '''
+
 comm_chest = {1: 0, 2: 10}
 chance_card = {1: 39, 2: 0, 3: 30, 4: 24, 5: 11, 6: 5, 7: 42, 8: 42, 9: 41, 10: -3, 11: 99, 12: 99, 13: 99, 14: 99, 15: 99, 16: 99}
 jail_turn = {}
@@ -162,7 +196,7 @@ for i in range(0, 40):
     loc_count[i] = 0
 
 for a in range(0, 1000000):
-    for i in range (1, 5):
+    for i in range (1, 4): #Last digit of range = # of players - 1
         double_count = 0
 
         while(double_count < 3):
@@ -185,7 +219,6 @@ for a in range(0, 1000000):
             if(jail_turn[i] == 0): #if they are not in jail
                 
                 player_pos[i] = (player_pos[i]+dice_roll) % 40
-                loc_count[player_pos[i]] += 1
 
                 if(player_pos[i] == (2 or 17 or 33)): #comm chest
                     player_pos[i] = newPos(player_pos[i], comm_chest[1])
@@ -195,7 +228,7 @@ for a in range(0, 1000000):
                     player_pos[i] = newPos(player_pos[i], chance_card[1])
                     chance_card = chance(chance_card)
 
-                if(player_pos[i] == 30):
+                if(player_pos[i] == 30): #don't use elif, because the person can still go to jail from the chance or comm chest card
                     jail_turn[i] = 3
                     player_pos[i] = 10
                 
@@ -223,18 +256,17 @@ for a in range(1, 40):
     if (loc_count[a] >= 0):
         sum_ += loc_count[a]
 
-#print(clean(player_pos))
-print(clean(loc_count))
-print(sum_, '\n')
-
 ave_count = {}
+
 for a in range(0, 40):
     if (loc_count[a] >= 0):
-        ave_count[a] = round(100*(loc_count[a]/sum_),2)
+        ave_count[a] = loc_count[a]/sum_
+
     else:
         ave_count[a] = -1
 
 for a in range(2, 38):
+    
     if (a <= 18):
         sheet.cell(row = a, column = 2).value = loc_count[a-2]
         sheet.cell(row = a, column = 3).value = ave_count[a-2]
@@ -255,5 +287,7 @@ for a in range(2, 38):
         sheet.cell(row = a, column = 2).value = loc_count[a+2]
         sheet.cell(row = a, column = 3).value = ave_count[a+2]
 
-print(clean(ave_count))
+    sheet.cell(row = a, column = 3).number_format = FORMAT_PERCENTAGE_00
+
+print('Done!')
 wb.save("Monopoly.xlsx")
