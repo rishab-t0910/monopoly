@@ -18,3 +18,5 @@ This project tries to schedule a 8, 16, and 32 person squash draw. While 8 is st
 3. Monopoly
 
 Created a simulation for a monopoly game to figure out which properties are most landed on. I adjusted the way I calculated some of the values: the chance/community chest values are the entire chance/community chest percentage, not the specific property. Meaning, the final value is the overall chance of landing on any of the community chests. Might include some ROI information if I get the opportunity. Will need the specifics on houses/hotels cost, mortgage, rent etc. Good project addition. 
+
+Edit on 01/06/21: Created some nicer formatting for the excel spreadsheet, inlcluding colour and, percentages. I thought about the ROI information and realised there are far too many variations to accurately create the best information. I believe that the percentage information will provide enough information about which properties should be purchased. Evidently, jail is the most visited space as there are many ways of getting there. 
