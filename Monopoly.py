@@ -7,8 +7,6 @@
 #chance at 8, 22, 26.
 #comm chest @ 2, 17, 33
 
-'''Results of this that can be interpreted: which property is most likely to be landed on'''
-
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
 from openpyxl.styles.numbers import FORMAT_PERCENTAGE_00
 from openpyxl import load_workbook
@@ -109,7 +107,7 @@ def chance(chance_cards): #increment the deck
 wb = load_workbook('Monopoly.xlsx')
 sheet = wb.active
 
-''' Formatting starts here '''
+''' ------------------------------------------- Formatting starts here ------------------------------------------- '''
 
 head_1 = sheet.cell(row = 1, column = 1)
 head_1.value = 'Location'
@@ -174,29 +172,28 @@ for i in range(2, 38):
     else:
         sheet.cell(row = i, column = 1).fill = PatternFill(fill_type = None)
 
-''' Formatting ends here '''
+''' ------------------------------------------- Formatting ends here -------------------------------------------'''
 
-comm_chest = {1: 0, 2: 10}
+num_players = 4
+
+comm_chest = {1: 0, 2: 10, 3: 99, 4: 99, 5: 99, 6: 99, 7: 99, 8: 99, 9: 99, 10: 99, 11: 99, 12: 99, 13: 99, 14: 99, 15: 99, 16: 99}
 chance_card = {1: 39, 2: 0, 3: 30, 4: 24, 5: 11, 6: 5, 7: 42, 8: 42, 9: 41, 10: -3, 11: 99, 12: 99, 13: 99, 14: 99, 15: 99, 16: 99}
 jail_turn = {}
 player_pos = {}
 loc_count = {}
     
-for i in range (3, 17):
-    comm_chest[i] = 99
-
 comm_chest = shuffle(shuffle(comm_chest))
 chance_card = shuffle(shuffle(chance_card))
 
-for i in range(1, 5):
+for i in range(1, num_players+1):
     player_pos[i] = 0
     jail_turn[i] = 0
     
 for i in range(0, 40):
     loc_count[i] = 0
 
-for a in range(0, 1000000):
-    for i in range (1, 4): #Last digit of range = # of players - 1
+for a in range(0, 100):
+    for i in range (1, num_players+1): #Last digit of range = # of players - 1
         double_count = 0
 
         while(double_count < 3):
@@ -216,28 +213,27 @@ for a in range(0, 1000000):
                 isDouble = False
                 break
                 
-            if(jail_turn[i] == 0): #if they are not in jail
-                
+            if(jail_turn[i] == 0 or (jail_turn[i] > 0 and isDouble is True)): #if they are not in jail
+
+                jail_turn[i] = 0
                 player_pos[i] = (player_pos[i]+dice_roll) % 40
+
+                ''' Use if instead of elif, in case they hit chance, get -3, hit comm chest'''
+
+                if(player_pos[i] == (8 or 22 or 36)): #chance
+                    player_pos[i] = newPos(player_pos[i], chance_card[1])
+                    chance_card = chance(chance_card)
 
                 if(player_pos[i] == (2 or 17 or 33)): #comm chest
                     player_pos[i] = newPos(player_pos[i], comm_chest[1])
                     comm_chest = community(comm_chest)
-
-                elif(player_pos[i] == (8 or 22 or 36)): #chance
-                    player_pos[i] = newPos(player_pos[i], chance_card[1])
-                    chance_card = chance(chance_card)
 
                 if(player_pos[i] == 30): #don't use elif, because the person can still go to jail from the chance or comm chest card
                     jail_turn[i] = 3
                     player_pos[i] = 10
                 
             else:
-                if(isDouble is True):
-                    jail_turn[i] == 0
-
-                else:
-                    jail_turn[i] += -1
+                jail_turn[i] += -1
                     
             loc_count[player_pos[i]] += 1
 
