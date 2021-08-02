@@ -22,3 +22,5 @@ Created a simulation for a monopoly game to figure out which properties are most
 Edit on 01/06/21: Created some nicer formatting for the excel spreadsheet, inlcluding colour and, percentages. I thought about the ROI information and realised there are far too many variations to accurately create the best information. I believe that the percentage information will provide enough information about which properties should be purchased. Evidently, jail is the most visited space as there are many ways of getting there. 
 
 Edit on 04/06/21: Cleaned up more of the code whilst brainstroming how to include the ROI. Considering aborting python for that and using a purely theoretical calculation using Markov Chain and Matrix Representations. TBC.
+
+Edit on 02/08/21: Been almost a month looking at this. I realised there was always a round-off error in the excel sheet that came from the program. Have solved the issue. Still learning about Markov Chain in an attempt to integrate ROI for the properties. 
