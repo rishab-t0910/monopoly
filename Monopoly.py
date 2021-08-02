@@ -175,6 +175,7 @@ for i in range(2, 38):
 ''' ------------------------------------------- Formatting ends here -------------------------------------------'''
 
 num_players = 4
+turns = 100000
 
 comm_chest = {1: 0, 2: 10, 3: 99, 4: 99, 5: 99, 6: 99, 7: 99, 8: 99, 9: 99, 10: 99, 11: 99, 12: 99, 13: 99, 14: 99, 15: 99, 16: 99}
 chance_card = {1: 39, 2: 0, 3: 30, 4: 24, 5: 11, 6: 5, 7: 42, 8: 42, 9: 41, 10: -3, 11: 99, 12: 99, 13: 99, 14: 99, 15: 99, 16: 99}
@@ -192,7 +193,7 @@ for i in range(1, num_players+1):
 for i in range(0, 40):
     loc_count[i] = 0
 
-for a in range(0, 100):
+for a in range(0, turns):
     for i in range (1, num_players+1): #Last digit of range = # of players - 1
         double_count = 0
 
@@ -234,10 +235,9 @@ for a in range(0, 100):
                 
             else:
                 jail_turn[i] += -1
-                    
-            loc_count[player_pos[i]] += 1
 
             if(not isDouble):
+                loc_count[player_pos[i]] += 1
                 break
 
 loc_count [8] = loc_count[8] + loc_count[22] + loc_count[36] #combine all the chance
@@ -247,10 +247,7 @@ loc_count [2] = loc_count[2] + loc_count[17] + loc_count[33] #combine all the co
 loc_count[17] = -1
 loc_count[33] = -1
 
-sum_ = 0
-for a in range(1, 40):
-    if (loc_count[a] >= 0):
-        sum_ += loc_count[a]
+sum_ = num_players*turns
 
 ave_count = {}
 
@@ -262,6 +259,8 @@ for a in range(0, 40):
         ave_count[a] = -1
 
 for a in range(2, 38):
+    
+    sheet.cell(row = a, column = 3).number_format = FORMAT_PERCENTAGE_00
     
     if (a <= 18):
         sheet.cell(row = a, column = 2).value = loc_count[a-2]
