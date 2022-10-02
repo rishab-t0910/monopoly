@@ -4,7 +4,7 @@
 #railroads in the middle of each lane @ 5, 15, 25, 35
 #utilities 2 away from jails @ 12 & 28
 #tax @ 4 & 38
-#chance at 8, 22, 26.
+#chance at 8, 22, 26
 #comm chest @ 2, 17, 33
 
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font
