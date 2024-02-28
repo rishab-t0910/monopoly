@@ -1,4 +1,4 @@
-Edit on 27/02/24: I am revamping this project as it is outdated and I have more understanding of Data Analysis in Python. I have remade the simulation portion of the project. Here are my future goals: 
+**Edit on 27/02/24**: I am revamping this project as it is outdated and I have more understanding of Data Analysis in Python. I have remade the simulation portion of the project. Here are my future goals: 
 - Plot the most frequented squares
 - Plot the most frequented group of squares - colour of property, type
 - Construct a ROI plot based on the following conditions:
