@@ -3,6 +3,13 @@
 - Other than brown and blue properties,  all other properties have roughly the same proportion of landings
 - Green properties make the most profit, and brown the least
 
+My next steps is to simulate the game, and run the same analysis with different buying strategies
+- Aggressive: Buy every property landed on
+- Average: Buy 1 in 2 properties landed on
+- Conservative: Buy 1 in 4 properties landed on
+
+After this, I want to run the game with the strategies, and giving each player a finite amount of money before showing the visualizations. 
+
 **Edit on 27/02/24**: I am revamping this project as it is outdated and I have a better understanding of Data Analysis in Python. I will no longer using OpenPyxl, but instead moving into Matplotlib for my EDA. I have remade the simulation portion of the project. Here are my future goals: 
 - Plot the most frequented squares
 - Plot the most frequented group of squares - colour of property, type
